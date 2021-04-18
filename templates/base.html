@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <!-- viewport-fit=cover is to support iPhone X rounded corners and notch in landscape-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+
+      <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+
+      <link href="/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
+      <script src="/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+      <link rel="shortcut icon" type="image/png" href="/dtz.png"/>
+  
+      {% if config.generate_feed %}
+        <link rel="alternate" type={% if config.feed_filename == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=config.feed_filename) | safe }}">
+      {% endif %}
+    </head>
+
+    <body style="display: flex;flex-direction: column;height:100vh;">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="https://dtz.rocks/" style="padding-right: 12px;background-color: rgba(0,0,0,0.2);border-radius: 1em;">
+            <img src="/dtz.png" alt="" width="30" height="24" class="d-inline-block align-top" style="margin-top: 3px;">
+            <span>down to zero</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% block nav %}
+              <li class="nav-item dropdown mx-4">
+                <a class="nav-link dropdown-toggle" href="#" id="currentContext" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {project}
+                </a>
+                <ul class="dropdown-menu dropdown-menu" id="contextList" aria-labelledby="currentContext">
+                  <!-- <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                </ul>
+              </li>
+              {% for link in config.extra.links %}
+              <li class="nav-item"><a class="nav-link" href="{{link.url}}">{{link.name}}</a></li>
+              {% endfor %}
+              {% endblock nav %}
+            </ul>
+            <form class="d-flex">
+              <a class="btn btn-outline-success" href="https://identity.dtz.rocks/">Login</a>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <script>
+        function initNavBar(){
+          //read known context from localStorage
+          let contextsStr = window.localStorage["contexts"];
+          let currentContextStr = window.localStorage["currentContext"];
+          if(currentContextStr){
+            document.querySelector("#currentContext").textContent=currentContextStr;
+          }
+          if(contextsStr){
+            let contextList = JSON.parse(contextsStr);
+            for(let idx=0;idx<contextList.length;idx++){
+              let item = contextList[idx];
+              if(item!=currentContextStr){
+                let li = document.createElement("li");
+                let link = document.createElement("a");
+                link.href="#";
+                link.className="dropdown-item";
+                link.textContent=item;
+                li.appendChild(link);
+                document.querySelector("#contextList").appendChild(li);
+              }
+            }
+          }
+        }
+        initNavBar();
+      </script>
+      <div class="container" style="flex-grow:1;display: flex;">
+        {% block content %}
+        {% endblock content %}
+      </div>
+      {% block footer %}
+      <div class="bg-light d-flex py-3 px-4">
+        powered by downtozero.cloud
+      </div>
+      {% endblock footer %}
+    </body>
+</html>

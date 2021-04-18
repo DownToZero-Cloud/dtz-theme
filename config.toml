@@ -1,0 +1,4 @@
+base_url = "https://github.com/DownToZero-Cloud/dtz-theme"
+compile_sass = true
+title = "DTZ theme"
+description = "dtz theme"

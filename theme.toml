@@ -1,0 +1,8 @@
+name = "dtz"
+description = "dtz theme"
+license = "MIT"
+min_version = "0.4.0"
+
+[author]
+name = "DTZ"
+homepage = "https://downtozero.cloud"
