@@ -1,7 +1,7 @@
 name = "dtz-theme"
 description = "dtz theme"
 license = "MIT"
-min_version = "0.4.0"
+min_version = "0.15.0"
 
 [author]
 name = "DTZ"
