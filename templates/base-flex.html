@@ -50,30 +50,32 @@
         </div>
       </nav>
       <script>
-        function initNavBar(){
-          //read known context from localStorage
-          let contextsStr = window.localStorage["contexts"];
-          let currentContextStr = window.localStorage["currentContext"];
-          if(currentContextStr){
-            document.querySelector("#currentContext").textContent=currentContextStr;
-          }
-          if(contextsStr){
-            let contextList = JSON.parse(contextsStr);
-            for(let idx=0;idx<contextList.length;idx++){
-              let item = contextList[idx];
-              if(item!=currentContextStr){
-                let li = document.createElement("li");
-                let link = document.createElement("a");
-                link.href="#";
-                link.className="dropdown-item";
-                link.textContent=item;
-                li.appendChild(link);
-                document.querySelector("#contextList").appendChild(li);
-              }
-            }
-          }
-        }
-        initNavBar();
+  var user;
+  function parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+  function init(){
+    if(!Cookies.get('dtz-auth')){
+      let url = document.location.href;
+      window.location=`https://identity.dtz.rocks/login/?rd=${url}`;
+    }else{
+      let x = parseJwt(Cookies.get('dtz-auth'));
+      let context_id = x.scope;
+      user = x;
+      let li = document.createElement("li");
+      let link = document.createElement("a");
+      link.href="#";
+      link.className="dropdown-item";
+      link.textContent=context_id;
+      li.appendChild(link);
+      document.querySelector("#contextList").appendChild(li);
+    }
+  }
+  init();
       </script>
       <div class="container-flex" style="flex-grow:1;display: flex;flex-direction:column;">
         {% block content %}
