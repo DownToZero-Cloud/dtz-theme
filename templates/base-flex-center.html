@@ -73,6 +73,7 @@
       link.textContent=context_id;
       li.appendChild(link);
       document.querySelector("#contextList").appendChild(li);
+      document.querySelector("#currentContext").textContent=context_id.split('-')[0];
     }
   }
   init();
