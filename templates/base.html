@@ -61,7 +61,9 @@
   function init(){
     if(!Cookies.get('dtz-auth')){
       let url = document.location.href;
-      window.location=`https://identity.dtz.rocks/login/?rd=${url}`;
+      if(url.indexOf("https://identity.dtz.rocks/login/") == -1) {
+        window.location=`https://identity.dtz.rocks/login/?rd=${url}`;
+      }
     }else{
       let x = parseJwt(Cookies.get('dtz-auth'));
       let context_id = x.scope;
