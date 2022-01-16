@@ -17,75 +17,7 @@
     </head>
 
     <body style="display: flex;flex-direction: column;height:100vh;">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="https://dtz.rocks/" style="padding-right: 12px;background-color: rgba(0,0,0,0.2);border-radius: 1em;">
-            <img src="/dtz.png" alt="" width="30" height="24" class="d-inline-block align-top" style="margin-top: 3px;">
-            <span>down to zero</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              {% block nav %}
-              <li class="nav-item dropdown mx-4">
-                <a class="nav-link dropdown-toggle" href="#" id="currentContext" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {project}
-                </a>
-                <ul class="dropdown-menu dropdown-menu" id="contextList" aria-labelledby="currentContext">
-                </ul>
-              </li>
-              {% for link in config.extra.links %}
-              <li class="nav-item"><a class="nav-link" href="{{link.url}}">{{link.name}}</a></li>
-              {% endfor %}
-              {% endblock nav %}
-            </ul>
-            <form class="d-flex">
-              <a id="btnSignout" class="btn btn-outline-primary ms-2 me-2" style="display:none;" href="#" onclick="signOut(event)">logout</a>
-              <a id="btnSignup" class="btn btn-outline-primary ms-2 me-2" style="display:none;" href="https://identity.dtz.rocks/signup">register</a>
-              <a id="btnSignin" class="btn btn-outline-success" style="display:none;" href="https://identity.dtz.rocks/login{% if current_url %}?rd={{current_url}}{% endif %}">login</a>
-            </form>
-          </div>
-        </div>
-      </nav>
-      <script>
-  var user;
-  function parseJwt(token) {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      return null;
-    }
-  }
-  function signOut(evt) {
-    if(evt) evt.preventDefault();
-    Cookies.remove('dtz-auth',{domain: 'dtz.rocks'});
-    window.location.reload();
-  }
-  function initNavbar(){
-    if(!Cookies.get('dtz-auth')){
-      let url = document.location.href;
-      if(url.indexOf("https://identity.dtz.rocks/login/") == -1) {
-        window.location=`https://identity.dtz.rocks/login/?rd=${url}`;
-      }
-    }else{
-      let x = parseJwt(Cookies.get('dtz-auth'));
-      let context_id = x.scope;
-      user = x;
-      let li = document.createElement("li");
-      let link = document.createElement("a");
-      link.href="#";
-      link.className="dropdown-item";
-      link.textContent=context_id;
-      li.appendChild(link);
-      document.querySelector("#contextList").appendChild(li);
-      document.querySelector("#currentContext").textContent=context_id.split('-')[0];
-      document.querySelector("#btnSignout").style.display="block";
-    }
-  }
-  initNavbar();
-      </script>
+      {{ nav }}
       <div class="container" style="flex-grow:1;display: flex;flex-direction:column;">
         {% block content %}
         {% endblock content %}
