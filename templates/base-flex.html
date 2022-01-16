@@ -63,6 +63,10 @@
           Cookies.remove('dtz-auth',{domain: 'dtz.rocks'});
           window.location.reload();
         }
+        function changeContext(evt){
+          if(evt) evt.preventDefault();
+          console.log(`switching to ${evt.target.text}`);
+        }
         function initNavbar(){
           if(!Cookies.get('dtz-auth')){
             let url = document.location.href;
@@ -79,7 +83,8 @@
               let link = document.createElement("a");
               link.href="#";
               link.className="dropdown-item";
-              link.textContent=role.name;
+              link.textContent=context_id;
+              link.addEventListener('click',changeContext);
               li.appendChild(link);
               document.getElementById("contextList").appendChild(li);
             }
