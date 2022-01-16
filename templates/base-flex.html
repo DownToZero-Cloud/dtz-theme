@@ -65,7 +65,8 @@
         }
         function changeContext(evt){
           if(evt) evt.preventDefault();
-          console.log(`switching to ${evt.target.text}`);
+          let new_context_id = evt.target.text;
+          document.querySelector("#currentContext").textContent=new_context_id.split('-')[0];
         }
         function initNavbar(){
           if(!Cookies.get('dtz-auth')){
