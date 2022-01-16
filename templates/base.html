@@ -60,7 +60,7 @@
   }
   function signOut(evt) {
     if(evt) evt.preventDefault();
-    Cookies.remove('dtz-auth');
+    Cookies.remove('dtz-auth',{domain: 'dtz.rocks'});
     window.location.reload();
   }
   function initNavbar(){
