@@ -71,15 +71,19 @@
             }
           }else{
             let x = parseJwt(Cookies.get('dtz-auth'));
-            let context_id = x.scope;
             user = x;
-            let li = document.createElement("li");
-            let link = document.createElement("a");
-            link.href="#";
-            link.className="dropdown-item";
-            link.textContent=context_id;
-            li.appendChild(link);
-            document.querySelector("#contextList").appendChild(li);
+            // look for context_id in roles
+            for(let role of x.roles){
+              let context_id = role.split('/')[5];
+              let li = document.createElement("li");
+              let link = document.createElement("a");
+              link.href="#";
+              link.className="dropdown-item";
+              link.textContent=role.name;
+              li.appendChild(link);
+              document.getElementById("contextList").appendChild(li);
+            }
+            let context_id = user.scope;
             document.querySelector("#currentContext").textContent=context_id.split('-')[0];
             document.querySelector("#btnSignout").style.display="block";
           }
