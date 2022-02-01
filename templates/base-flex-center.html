@@ -78,6 +78,7 @@
             Cookies.set("dtz-auth",token, { expires: exp_date,
                   domain: 'dtz.rocks',secure: true, sameSite: 'Lax' });
             document.querySelector("#currentContext").textContent=new_context_id.split('-')[0];
+            location.reload();
           })
         }
         function initNavbar(){
