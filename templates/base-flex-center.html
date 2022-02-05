@@ -90,6 +90,7 @@
           }else{
             let x = parseJwt(Cookies.get('dtz-auth'));
             user = x;
+            let known_contexts = [];
             // look for context_id in roles
             for(let role of x.roles){
               let context_id = role.split('/')[5];
@@ -100,6 +101,8 @@
               link.textContent=context_id;
               link.addEventListener('click',changeContext);
               li.appendChild(link);
+              if(known_contexts.includes(context_id)) continue;
+              known_contexts.push(context_id);
               document.getElementById("contextList").appendChild(li);
             }
             let context_id = user.scope;
