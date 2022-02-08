@@ -90,6 +90,7 @@
           }else{
             let x = parseJwt(Cookies.get('dtz-auth'));
             user = x;
+            let known_contexts = [];
             // look for context_id in roles
             for(let role of x.roles){
               let context_id = role.split('/')[5];
