@@ -59,13 +59,13 @@
         link.href="#";
         link.className="dropdown-item";
         link.textContent=context_id;
-        link.id=context_id;
-        li.appendChild(link);
+        link.id=context_id.replaceAll('-','');
         fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
           .then(r=>r.json())
           .then(data=> {
-            document.querySelector(`#${data.context_id}`).textContent=data.alias;
+            document.querySelector(`#${data.context_id.replaceAll('-','')}`).textContent=data.alias;
         });
+        li.appendChild(link);
         document.querySelector("#contextList").appendChild(li);
         let curContext = document.querySelector("#currentContext");
         if(curContext.textContent.indexOf('-')>0) {
