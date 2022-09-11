@@ -67,7 +67,10 @@
             document.querySelector(`#${data.context_id}`).textContent=data.alias;
         });
         document.querySelector("#contextList").appendChild(li);
-        document.querySelector("#currentContext").textContent=context_id.split('-')[0];
+        let curContext = document.querySelector("#currentContext");
+        if(curContext.textContent.indexOf('-')>0) {
+          curContext.textContent=context_id.split('-')[0];
+        }
         document.querySelector("#btnSignout").style.display="block";
       }
     }
