@@ -114,7 +114,9 @@
           link.addEventListener('click', changeContext);
           link.id = "ctx" + context_id.replaceAll('-', '');
           li.appendChild(link);
-          fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
+          fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`,{
+            credentials: 'include'
+          })
             .then(r => r.json())
             .then(data => {
               let id = `#ctx${data.context_id.replaceAll('-', '')}`;
