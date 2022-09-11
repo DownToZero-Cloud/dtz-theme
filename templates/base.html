@@ -105,6 +105,7 @@
         // look for context_id in roles
         for (let role of x.roles) {
           let context_id = role.split('/')[5];
+          if (known_contexts.includes(context_id)) continue;
           let li = document.createElement("li");
           let link = document.createElement("a");
           link.href = "#";
@@ -112,17 +113,18 @@
           link.textContent = context_id;
           link.addEventListener('click', changeContext);
           link.id = "ctx" + context_id.replaceAll('-', '');
-          fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
-            .then(r => r.json())
-            .then(data => {
-              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = `${data.alias} (${data.context_id})`;
-            });
           li.appendChild(link);
-          if (known_contexts.includes(context_id)) continue;
           fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
             .then(r => r.json())
             .then(data => {
-              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = `${data.alias} (${data.context_id})`;
+              let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+              let el = document.querySelector(id);
+              el.textContent = `${data.alias} `;
+              let span = document.createElement("span");
+              span.textContent = `(${data.context_id})`;
+              span.style.color = "var(--bs-gray)";
+              el.appendChild(span);
+              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
             });
           known_contexts.push(context_id);
           document.getElementById("contextList").appendChild(li);
@@ -131,7 +133,7 @@
         fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
           .then(r => r.json())
           .then(data => {
-            document.querySelector(`#currentContext`).textContent = `${data.alias}`;
+            document.querySelector(`#currentContext`).textContent = data.alias;
           });
         document.querySelector("#btnSignout").style.display = "block";
       }
