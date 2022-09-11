@@ -115,20 +115,24 @@
           fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
             .then(r => r.json())
             .then(data => {
-              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = data.alias;
+              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = `${data.alias} (${data.context_id})`;
             });
           li.appendChild(link);
           if (known_contexts.includes(context_id)) continue;
           fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
             .then(r => r.json())
             .then(data => {
-              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = data.alias;
+              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`).textContent = `${data.alias} (${data.context_id})`;
             });
           known_contexts.push(context_id);
           document.getElementById("contextList").appendChild(li);
         }
         let context_id = user.scope;
-        document.querySelector("#currentContext").textContent = context_id.split('-')[0];
+        fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
+          .then(r => r.json())
+          .then(data => {
+            document.querySelector(`#currentContext`).textContent = `${data.alias}`;
+          });
         document.querySelector("#btnSignout").style.display = "block";
       }
     }
