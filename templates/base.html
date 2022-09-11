@@ -131,7 +131,9 @@
           document.getElementById("contextList").appendChild(li);
         }
         let context_id = user.scope;
-        fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
+        fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`,{
+          credentials: 'include'
+        })
           .then(r => r.json())
           .then(data => {
             document.querySelector(`#currentContext`).textContent = data.alias;
