@@ -17,8 +17,7 @@
     </head>
 
     <body style="display: flex;flex-direction: column;height:100vh;">
-      {% navi() %}
-      {% end %}
+      {{ navi() }}
       <div class="container-flex" style="flex-grow:1;display: flex;flex-direction:column;align-items: center;justify-content: center;">
         {% block content %}
         {% endblock content %}
