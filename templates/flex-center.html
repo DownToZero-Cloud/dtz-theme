@@ -3,10 +3,7 @@
 {% block main %}
 <div class="container-flex" style="flex-grow:1;display: flex;flex-direction:column;align-items: center;justify-content: center;">
   {% block content %}
+    {{ section.content | safe }}
   {% endblock content %}
 </div>
 {% endblock main %}
-
-{% block content %}
-  {{ section.content | safe }}
-{% endblock content %}
