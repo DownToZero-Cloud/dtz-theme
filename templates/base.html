@@ -123,9 +123,7 @@
               let span = document.createElement("span");
               span.textContent = `(${data.context_id})`;
               span.style.color = "var(--bs-gray)";
-              span.innerHTML = `(${data.context_id}) <svg class="bi" width="32" height="32" fill="currentColor">
-  <use xlink:href="/static/bootstrap-icons/1.9.1/clipboard.svg"/>
-</svg>`;
+              span.innerHTML = `(${data.context_id}) <img src="/static/bootstrap-icons/1.9.1/clipboard.svg" alt="clipboard" width="32" height="32">`;
               el.appendChild(span);
               document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
             });
