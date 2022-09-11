@@ -100,6 +100,12 @@
               link.className="dropdown-item";
               link.textContent=context_id;
               link.addEventListener('click',changeContext);
+              link.id=context_id;
+              fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`)
+                .then(r=>r.json())
+                .then(data=> {
+                  document.querySelector(`#${data.context_id}`).textContent=data.alias;
+              });
               li.appendChild(link);
               if(known_contexts.includes(context_id)) continue;
               known_contexts.push(context_id);
