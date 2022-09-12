@@ -74,7 +74,7 @@
     }
     function changeContext(evt) {
       if (evt) evt.preventDefault();
-      let new_context_id = evt.target.text;
+      let new_context_id = evt.target.id;
       fetch("https://identity.dtz.rocks/api/2021-02-21/token/refresh", {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
