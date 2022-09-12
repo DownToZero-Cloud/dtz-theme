@@ -74,7 +74,7 @@
     }
     function changeContext(evt) {
       if (evt) evt.preventDefault();
-      let new_context_id = evt.target.id;
+      let new_context_id = evt.target.dataset.contextid;
       fetch("https://identity.dtz.rocks/api/2021-02-21/token/refresh", {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -113,6 +113,7 @@
           link.textContent = context_id;
           link.addEventListener('click', changeContext);
           link.id = "ctx" + context_id.replaceAll('-', '');
+          link.dataset.contextid=context_id;
           li.appendChild(link);
           fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`,{
             credentials: 'include'
