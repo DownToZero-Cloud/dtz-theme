@@ -123,11 +123,6 @@
               let id = `#ctx${data.context_id.replaceAll('-', '')}`;
               let el = document.querySelector(id);
               el.textContent = `${data.alias} `;
-              let span = document.createElement("span");
-              span.textContent = `(${data.context_id})`;
-              span.style.color = "var(--bs-gray)";
-              span.innerHTML = `(${data.context_id} <img src="/bootstrap-icons/1.9.1/clipboard.svg" alt="clipboard" width="16" height="16"> )`;
-              el.appendChild(span);
               document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
             });
           known_contexts.push(context_id);
