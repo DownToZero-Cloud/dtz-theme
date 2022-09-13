@@ -132,7 +132,7 @@
                 let el = document.querySelector(id);
                 el.textContent = `${data.alias} `;
                 document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-                contexts[data.contextId]={alias: data.alias};
+                contexts[data.context_id]={alias: data.alias};
                 localStorage.contexts = JSON.stringify(contexts);
               });
           }
