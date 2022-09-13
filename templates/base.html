@@ -101,6 +101,12 @@
       } else {
         let x = parseJwt(Cookies.get('dtz-auth'));
         user = x;
+        let contexts = {};
+        //look for cache context info
+        let str = localStorage.contexts;
+        if(str && str.length>0){
+          contexts = JSON.parse(str);
+        }
         let known_contexts = [];
         // look for context_id in roles
         for (let role of x.roles) {
@@ -110,21 +116,27 @@
           let link = document.createElement("a");
           link.href = "#";
           link.className = "dropdown-item";
-          link.textContent = context_id;
           link.addEventListener('click', changeContext);
           link.id = "ctx" + context_id.replaceAll('-', '');
           link.dataset.contextid=context_id;
+          if(contexts[context_id]){
+            link.textContent = contexts[context_id].alias;
+          }else{
+            link.textContent = context_id;
+            fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`,{
+              credentials: 'include'
+            })
+              .then(r => r.json())
+              .then(data => {
+                let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+                let el = document.querySelector(id);
+                el.textContent = `${data.alias} `;
+                document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
+                contexts[data.contextId]={alias: data.alias};
+                localStorage.contexts = JSON.stringify(contexts);
+              });
+          }
           li.appendChild(link);
-          fetch(`https://dtz.rocks/api/2021-12-09/context/${context_id}`,{
-            credentials: 'include'
-          })
-            .then(r => r.json())
-            .then(data => {
-              let id = `#ctx${data.context_id.replaceAll('-', '')}`;
-              let el = document.querySelector(id);
-              el.textContent = `${data.alias} `;
-              document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-            });
           known_contexts.push(context_id);
           document.getElementById("contextList").appendChild(li);
         }
