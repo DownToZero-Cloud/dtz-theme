@@ -95,6 +95,9 @@
     function initNavbar() {
       if (!Cookies.get('dtz-auth')) {
         let url = document.location.href;
+        if (url.indexOf("https://identity.dtz.rocks/signup/") == 0) {
+          return;
+        }
         if (url.indexOf("https://identity.dtz.rocks/login/") == -1) {
           window.location = `https://identity.dtz.rocks/login/?rd=${url}`;
         }
