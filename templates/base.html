@@ -108,7 +108,19 @@
         //look for cache context info
         let str = localStorage.contexts;
         if(str && str.length>0){
-          contexts = JSON.parse(str);
+          let x = JSON.parse(str);
+          // eval staleness, not older then 7 days
+          if(x.version=="1"){
+            if(x.ts < new Date().getTime() - 7*24*60*60*1000){
+              //delete data
+              delete localStorage.contexts;
+            }else{
+              contexts = x.data;
+            }
+          }else{
+            //delete unknown data
+            delete localStorage.contexts;
+          }
         }
         let known_contexts = [];
         // look for context_id in roles
@@ -136,7 +148,13 @@
                 el.textContent = `${data.alias} `;
                 document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
                 contexts[data.context_id]={alias: data.alias};
-                localStorage.contexts = JSON.stringify(contexts);
+                // wrap around storage headers
+                let x = {
+                  ts: new Date().getTime(),
+                  version: "1",
+                  data: contexts
+                };
+                localStorage.contexts = JSON.stringify(x);
               });
           }
           li.appendChild(link);
