@@ -72,9 +72,7 @@
       Cookies.remove('dtz-auth', { domain: 'dtz.rocks' });
       window.location.reload();
     }
-    function changeContext(evt) {
-      if (evt) evt.preventDefault();
-      let new_context_id = evt.target.dataset.contextid;
+    function changeToContextId(new_context_id){
       fetch("https://identity.dtz.rocks/api/2021-02-21/token/refresh", {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -91,6 +89,11 @@
         document.querySelector("#currentContext").textContent = new_context_id.split('-')[0];
         location.reload();
       })
+    }
+    function changeContext(evt) {
+      if (evt) evt.preventDefault();
+      let new_context_id = evt.target.dataset.contextid;
+      changeToContextId(new_context_id);
     }
     function initNavbar() {
       if (!Cookies.get('dtz-auth')) {
